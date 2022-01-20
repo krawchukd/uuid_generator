@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres
+    ports:
+      - "5432:5432"
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: example
+      POSTGRES_USER: prov
+      POSTGRES_DB: uuid_generator
+    volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  uuid_gen:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
